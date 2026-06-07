@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÍZAROcafè - Menù Digitale</title>
+    <style>
+        /* --- VARIABILI E STILI DI BASE --- */
+        :root {
+            --bg-color: #f9f9f9;
+            --card-bg: #ffffff;
+            --text-main: #1a1a1a;
+            --text-muted: #666666;
+            --accent-color: #000000;
+            --border-color: #eaeaea;
+            --allergen-bg: #f0f0f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 60px;
+        }
+
+        /* --- HEADER E LOGO --- */
+        header {
+            background: var(--card-bg);
+            text-align: center;
+            padding: 30px 20px 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .logo-sub {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        /* --- CATEGORIE SHORTCUTS (SCROLL ORIZZONTALE) --- */
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--card-bg);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            z-index: 100;
+            overflow-x: auto;
+            white-space: nowrap;
+            display: flex;
+            padding: 12px 10px;
+            gap: 8px;
+            scrollbar-width: none; /* Nasconde scrollbar Firefox */
+        }
+
+        nav::-webkit-scrollbar {
+            display: none; /* Nasconde scrollbar Chrome/Safari */
+        }
+
+        nav a {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--bg-color);
+            color: var(--text-main);
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        nav a:active, nav a.active {
+            background: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
+        }
+
+        /* --- CONTENITORE MENU --- */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+
+        .info-box {
+            background: #f1f1f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 35px 0 15px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent-color);
+            scroll-margin-top: 75px; /* Evita che il titolo finisca sotto la nav fissa */
+        }
+
+        .section-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        /* --- ELEMENTI DEL MENU --- */
+        .menu-item {
+            background: var(--card-bg);
+            padding: 14px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .item-name {
+            padding-right: 15px;
+        }
+
+        .item-price {
+            white-space: nowrap;
+        }
+
+        .item-description {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .allergen {
+            display: inline-block;
+            background: var(--allergen-bg);
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-top: 6px;
+            align-self: flex-start;
+            font-weight: bold;
+        }
+
+        /* --- INFO AGGIUNTIVE / MODIFICHE --- */
+        .custom-box {
+            background: #fff;
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .custom-box h4 {
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        /* --- FOOTER / LEGENDA --- */
+        footer {
+            margin-top: 5px;
+            padding: 25px 15px;
+            background: #fff;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-text">ÍZAROcafè</div>
+        <div class="logo-sub">Benvenuti. Lasciatevi ispirare.</div>
+    </header>
+
+    <nav id="categories-nav">
+        <a href="#caffetteria">Caffetteria</a>
+        <a href="#specialita">Specialità Caffè</a>
+        <a href="#colazione">Colazione & Dolci</a>
+        <a href="#aperitivi">Aperitivi & Cocktail</a>
+        <a href="#lunch">Area Food & Lunch</a>
+        <a href="#amari">Amari & Liquori</a>
+        <a href="#bevande">Bevande & Succhi</a>
+    </nav>
+
+    <div class="container">
+        
+        <div class="info-box">
+            Per offrire l'eccellenza in tazzina, utilizziamo esclusivamente la Miscela Italia della torrefazione Caffè Crème.
+        </div>
+
+        <section id="caffetteria">
+            <h2 class="section-title">La nostra Selezione Caffè</h2>
+            <p class="section-subtitle">I grandi classici</p>
+
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Caffè Espresso</span><span class="item-price">€ 1,20</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Caffè in Ghiaccio</span><span class="item-price">€ 1,50</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Caffè Freddo</span><span class="item-price">€ 2,00</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Caffè Leccese</span><span class="item-price">€ 2,00</span></div>
+                <div class="item-description">Esaltato dalla nota mandorlata.</div>
+                <span class="allergen">ALL. 8</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Caffè Americano</span><span class="item-price">€ 1,50</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Espressino</span><span class="item-price">€ 1,30</span></div>
+                <span class="allergen">ALL. 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Cappuccino</span><span class="item-price">€ 1,50</span></div>
+                <span class="allergen">ALL. 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Caffellatte</span><span class="item-price">€ 1,50</span></div>
+                <span class="allergen">ALL. 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Latte Bianco</span><span class="item-price">€ 1,50</span></div>
+                <span class="allergen">ALL. 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Latte Macchiato</span><span class="item-price">€ 1,50</span></div>
+                <span class="allergen">ALL. 7</span>
+            </div>
+
+            <p class="section-subtitle" style="margin-top: 20px; margin-bottom: 10px;">Dolci coccole & infusi</p>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Cioccolata Calda</span><span class="item-price">€ 3,00</span></div>
+                <span class="allergen">ALL. 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Tea / Infusi / Camomilla</span><span class="item-price">€ 2,00</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Spremuta d'Arancia Fresca</span><span class="item-price">€ 3,00</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Crema al Caffè</span><span class="item-price">€ 3,00</span></div>
+                <span class="allergen">ALL. 7</span>
+            </div>
+
+            <div class="custom-box">
+                <h4>Personalizza il tuo momento</h4>
+                <p><strong>Varianti:</strong> Macchiato (+0,20€) | Ginseng o Orzo (+0,30€) | Decaffeinato (+0,10€)</p>
+                <p style="margin-top: 4px;"><strong>Scelte Veg/Intolleranze:</strong> Bevanda vegetale o latte senza lattosio (+0,20€)</p>
+                <p style="margin-top: 4px;"><strong>Extra:</strong> Panna Montata (+0,50€)</p>
+                <p style="margin-top: 4px;"><strong>Correzioni:</strong> Con Sambuca, Zabov o Borghetti (+0,50€) | Con Baileys o distillati (+0,80€)</p>
+                <p style="margin-top: 8px; font-size: 0.8rem; color: var(--text-muted);"><em>Nota: Per i prodotti di caffetteria da asporto è previsto un supplemento di 0,10€ a pezzo.</em></p>
+            </div>
+        </section>
+
+        <section id="specialita">
+            <h2 class="section-title">Specialità al Caffè</h2>
+            <p class="section-subtitle">Fatte con Caffè Crème</p>
+
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Caffè Shakerato</span><span class="item-price">€ 3,00</span></div>
+                <div class="item-description">Espresso fresco shakerato con ghiaccio fino a ottenere una schiuma vellutata.</div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Caffè Shakerato al Borghetti</span><span class="item-price">€ 3,50</span></div>
+                <div class="item-description">Con l'intensità del liquore al caffè Borghetti.</div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Caffè Shakerato al Baileys</span><span class="item-price">€ 3,80</span></div>
+                <div class="item-description">Versione cremosa arricchita da Baileys.</div>
+                <span class="allergen">ALL. 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Leccese Shakerato</span><span class="item-price">€ 2,50</span></div>
+                <div class="item-description">L'autentico rito salentino in versione shakerata.</div>
+                <span class="allergen">ALL. 8</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Espresso Martini</span><span class="item-price">€ 6,00</span></div>
+                <div class="item-description">Vodka, liquore al caffè Borghetti, sciroppo di zucchero ed espresso fresco.</div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Black Russian</span><span class="item-price">€ 6,00</span></div>
+                <div class="item-description">Vodka liscia e liquore al caffè Borghetti serviti corti con ghiaccio.</div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Irish Coffee</span><span class="item-price">€ 6,00</span></div>
+                <div class="item-description">Caffè lungo, Irish Whiskey, zucchero di canna e panna fresca.</div>
+                <span class="allergen">ALL. 7</span>
+            </div>
+        </section>
+
+        <section id="colazione">
+            <h2 class="section-title">Colazione & Dolci</h2>
+            <p class="section-subtitle">Pasticceria fresca ogni mattina</p>
+
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Cornetto (Farcito o Vuoto)</span><span class="item-price">€ 1,30</span></div>
+                <span class="allergen">ALL. 1, 3, 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Cornetto Vegano / Cereali</span><span class="item-price">€ 1,30</span></div>
+                <span class="allergen">ALL. 1</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Cornetto Bigusto</span><span class="item-price">€ 1,40</span></div>
+                <span class="allergen">ALL. 1, 3, 6, 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Pan Gocciole</span><span class="item-price">€ 1,50</span></div>
+                <span class="allergen">ALL. 1, 3, 6, 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Sfoglia / Saccottino</span><span class="item-price">€ 1,50</span></div>
+                <span class="allergen">ALL. 1, 3, 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Pasticciotto / Crostata</span><span class="item-price">€ 2,00</span></div>
+                <span class="allergen">ALL. 1, 3, 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Muffin Assortiti</span><span class="item-price">€ 2,00</span></div>
+                <span class="allergen">ALL. 1, 3, 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Ciambella / Donut</span><span class="item-price">€ 1,90</span></div>
+                <span class="allergen">ALL. 1, 3, 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Krapfen</span><span class="item-price">€ 1,30</span></div>
+                <span class="allergen">ALL. 1, 3, 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Frollino</span><span class="item-price">€ 1,00</span></div>
+                <span class="allergen">ALL. 1, 3, 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Cornetto Senza Glutine</span><span class="item-price">€ 2,80</span></div>
+                <span class="allergen">ALL. 3, 7</span>
+            </div>
+            <div class="custom-box">
+                <p><em>Presso il nostro banco colazione sono esposti ulteriori prodotti, anche senza glutine, con i relativi prezzi chiaramente indicati.</em></p>
+            </div>
+        </section>
+
+        <section id="aperitivi">
+            <h2 class="section-title">Aperitivi & Cocktail</h2>
+            <p class="section-subtitle">Il rituale dell'aperitivo italiano</p>
+
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Spritz Analcolico</span><span class="item-price">€ 5,00</span></div>
+                <div class="item-description">Bitter analcolico, succo d'arancia, soda. Un rinfrescante piacere.</div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Spritz (Aperol o Campari)</span><span class="item-price">€ 6,00</span></div>
+                <div class="item-description">Prosecco, soda e il tocco inconfondibile del bitter scelto.</div>
+                <span class="allergen">ALL. 12</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Campari / Aperol Liscio</span><span class="item-price">€ 4,00</span></div>
+                <div class="item-description">Serviti con ghiaccio e scorza d'arancia.</div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Calice di Prosecco</span><span class="item-price">€ 4,00</span></div>
+                <div class="item-description">Fresco, vivace e fruttato.</div>
+                <span class="allergen">ALL. 12</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Mimosa</span><span class="item-price">€ 5,00</span></div>
+                <div class="item-description">Prosecco e spremuta d'arancia fresca.</div>
+                <span class="allergen">ALL. 12</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Flirtini</span><span class="item-price">€ 5,00</span></div>
+                <div class="item-description">Prosecco e succo d'ananas.</div>
+                <span class="allergen">ALL. 12</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Martini (Bianco o Rosso)</span><span class="item-price">€ 4,00</span></div>
+                <div class="item-description">Servito freddo con ghiaccio.</div>
+                <span class="allergen">ALL. 12</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Martini Dry</span><span class="item-price">€ 6,00</span></div>
+                <div class="item-description">Gin di linea, Vermouth Dry e oliva.</div>
+                <span class="allergen">ALL. 12</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Milano-Torino</span><span class="item-price">€ 6,00</span></div>
+                <div class="item-description">Incontro tra Campari e Vermouth Rosso.</div>
+                <span class="allergen">ALL. 12</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Garibaldi</span><span class="item-price">€ 6,00</span></div>
+                <div class="item-description">Campari e dolcezza del succo d'arancia.</div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Americano</span><span class="item-price">€ 6,00</span></div>
+                <div class="item-description">Campari, Vermouth Rosso e splash di soda.</div>
+                <span class="allergen">ALL. 12</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Negroni</span><span class="item-price">€ 6,00</span></div>
+                <div class="item-description">Gin di linea, Campari e Vermouth Rosso. Intenso e strutturato.</div>
+                <span class="allergen">ALL. 12</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Gin Tonic</span><span class="item-price">€ 7,00</span></div>
+                <div class="item-description">Chiedi al personale la nostra selezione di gin disponibili.</div>
+            </div>
+        </section>
+
+        <section id="lunch">
+            <h2 class="section-title">Area Food & Lunch</h2>
+            
+            <p class="section-subtitle">Gli Intrattieni (Snack)</p>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Olive</span><span class="item-price">€ 2,50</span></div>
+                <div class="item-description">Olive verdi in salamoia.</div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Tarallini</span><span class="item-price">€ 2,00</span></div>
+                <span class="allergen">ALL. 1</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Arachidi Tostate</span><span class="item-price">€ 2,00</span></div>
+                <span class="allergen">ALL. 5</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Mandorle Tostate</span><span class="item-price">€ 2,00</span></div>
+                <span class="allergen">ALL. 8</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Diavolini</span><span class="item-price">€ 2,50</span></div>
+                <div class="item-description">Arachidi piccanti in sfoglia croccante.</div>
+                <span class="allergen">ALL. 1, 5</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Favette Fritte</span><span class="item-price">€ 2,50</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Fave al Lime</span><span class="item-price">€ 2,50</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Rice Crackers Mix</span><span class="item-price">€ 2,00</span></div>
+                <span class="allergen">ALL. 1, 6, 11</span>
+            </div>
+
+            <p class="section-subtitle" style="margin-top: 20px;">Le Bowl</p>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">La Bowl ÍZARO</span><span class="item-price">€ 7,50</span></div>
+                <div class="item-description">Mix di orzo e farro, tonno, verdure grigliate, pomodoro fresco, rucola, olive verdi e granella di mandorle tostate.</div>
+                <span class="allergen">ALL. 1, 4, 8</span>
+            </div>
+
+            <p class="section-subtitle" style="margin-top: 20px;">I Panini (Ciabatta o Puccia)</p>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Il Caprese Sprint</span><span class="item-price">€ 5,50</span></div>
+                <div class="item-description">Pomodoro, mozzarella, pesto di basilico e olio.</div>
+                <span class="allergen">ALL. 1, 7, 8</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Il Contadino</span><span class="item-price">€ 6,50</span></div>
+                <div class="item-description">Prosciutto crudo, Emmental e verdure grigliate.</div>
+                <span class="allergen">ALL. 1, 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Il Marinaio</span><span class="item-price">€ 6,00</span></div>
+                <div class="item-description">Tonno, pomodoro, formaggio spalmabile e rucola.</div>
+                <span class="allergen">ALL. 1, 4, 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Il Delicato</span><span class="item-price">€ 6,00</span></div>
+                <div class="item-description">Fesa di tacchino, Emmental, pomodoro e formaggio spalmabile.</div>
+                <span class="allergen">ALL. 1, 7</span>
+            </div>
+
+            <p class="section-subtitle" style="margin-top: 20px;">Le Piadine</p>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">La Vegana</span><span class="item-price">€ 5,50</span></div>
+                <div class="item-description">Hummus di ceci e verdure grigliate.</div>
+                <span class="allergen">ALL. 1, 11</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">La Leggera</span><span class="item-price">€ 5,50</span></div>
+                <div class="item-description">Fesa di tacchino, formaggio spalmabile e rucola.</div>
+                <span class="allergen">ALL. 1, 7</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">La Tradizionale</span><span class="item-price">€ 6,00</span></div>
+                <div class="item-description">Prosciutto crudo, mozzarella e pomodoro.</div>
+                <span class="allergen">ALL. 1, 7</span>
+            </div>
+
+            <p class="section-subtitle" style="margin-top: 20px;">I Toast</p>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Il Toast Classico</span><span class="item-price">€ 4,00</span></div>
+                <div class="item-description">Prosciutto cotto e Emmental.</div>
+                <span class="allergen">ALL. 1, 7</span>
+            </div>
+
+            <div class="custom-box" style="background: #fff9e6; border-left-color: #ffcc00;">
+                <h4>Menu Combo Pranzo (12:00 - 15:00)</h4>
+                <p><strong>Combo Easy (5,50€):</strong> Toast Classico + Acqua + Caffè</p>
+                <p><strong>Combo Smart (8,50€):</strong> Piadina o Panino (fino a 6,00€) + Acqua + Caffè</p>
+                <p><strong>Combo Premium (9,00€):</strong> Panino "Il Contadino" + Acqua + Caffè</p>
+            </div>
+            
+            <p class="section-subtitle" style="margin-top: 20px;">Birre in Bottiglia</p>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Peroni Nastro Azzurro</span><span class="item-price">€ 2,00</span></div>
+                <span class="allergen">ALL. 1</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Peroni Nastro Azzurro 0.0%</span><span class="item-price">€ 2,50</span></div>
+                <div class="item-description">Analcolica.</div>
+                <span class="allergen">ALL. 1</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Beck's</span><span class="item-price">€ 2,50</span></div>
+                <span class="allergen">ALL. 1</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Heineken</span><span class="item-price">€ 3,00</span></div>
+                <span class="allergen">ALL. 1</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Corona</span><span class="item-price">€ 3,50</span></div>
+                <span class="allergen">ALL. 1</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Tennent's</span><span class="item-price">€ 3,50</span></div>
+                <span class="allergen">ALL. 1</span>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Bjorne</span><span class="item-price">€ 3,50</span></div>
+                <span class="allergen">ALL. 1</span>
+            </div>
+        </section>
+
+        <section id="amari">
+            <h2 class="section-title">Carta degli Amari e Distillati</h2>
+            
+            <p class="section-subtitle">Amari e Digestivi Erboristici — € 3,50</p>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Fernet Branca / Branca Menta</span><span class="item-price">€ 3,50</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Unicum / Cynar / Jägermeister</span><span class="item-price">€ 3,50</span></div>
+            </div>
+
+            <p class="section-subtitle" style="margin-top: 20px;">Amari Classici Italiani — € 3,50</p>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Amaro del Capo / Montenegro / Lucano</span><span class="item-price">€ 3,50</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Ramazzotti / Averna</span><span class="item-price">€ 3,50</span></div>
+            </div>
+
+            <p class="section-subtitle" style="margin-top: 20px;">Liquori Dolci, Creme e Frutta — € 3,50</p>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Limoncello / Sambuca / Disaronno</span><span class="item-price">€ 3,50</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Borsci S. Marzano / Elisir Gambrinus / Borghetti</span><span class="item-price">€ 3,50</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Zabov / Baileys <small style="font-weight:normal;">(all. 7)</small> / Vodka alla Frutta</span><span class="item-price">€ 3,50</span></div>
+            </div>
+
+            <p class="section-subtitle" style="margin-top: 20px;">Distillati e Spirits — € 4,00</p>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Grappa (Bianca o Barricata)</span><span class="item-price">€ 4,00</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Stravecchio Branca / Jack Daniel's / Jim Beam</span><span class="item-price">€ 4,00</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Gin / Vodka Liscia / Cointreau / Grand Marnier</span><span class="item-price">€ 4,00</span></div>
+            </div>
+
+            <p class="section-subtitle" style="margin-top: 20px;">Selezione Premium — € 7,00</p>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Rum Zacapa / Barceló Imperial</span><span class="item-price">€ 7,00</span></div>
+            </div>
+        </section>
+
+        <section id="bevande">
+            <h2 class="section-title">Bevande e Succhi</h2>
+
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Acqua Minerale (Nat / Friz) <small style="font-weight:normal; color:var(--text-muted);">50cl</small></span><span class="item-price">€ 1,00</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Coca-Cola / Fanta / Sprite <small style="font-weight:normal; color:var(--text-muted);">33cl</small></span><span class="item-price">€ 2,50</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Cedrata / Cocktail San Pellegrino</span><span class="item-price">€ 2,50</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Tè Freddo Artigianale <small style="font-weight:normal; color:var(--text-muted);">(Limone/Pesca)</small></span><span class="item-price">€ 2,00</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Tè Freddo (Estathé / Fuze Tea)</span><span class="item-price">€ 2,50</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Crodino / Sanbitter</span><span class="item-price">€ 2,50</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Campari Soda</span><span class="item-price">€ 3,00</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Succhi di Frutta <small style="font-weight:normal; color:var(--text-muted);">(Classici / Premium)</small></span><span class="item-price">€ 2,50 / € 3,00</span></div>
+            </div>
+            <div class="menu-item">
+                <div class="item-main"><span class="item-name">Lurisia <small style="font-weight:normal; color:var(--text-muted);">(Limonata / Gazzosa / Aranciata / Chinotto)</small></span><span class="item-price">€ 3,00</span></div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p><strong>LEGENDA ALLERGENI:</strong> 1. Cereali/Glutine | 3. Uova | 4. Pesce | 5. Arachidi | 6. Soia | 7. Latte | 8. Frutta a guscio | 11. Sesamo | 12. Solfiti.</p>
+        <p style="margin-top: 10px;">Il registro completo è disponibile presso il nostro personale.</p>
+        <p style="margin-top: 15px; font-size:0.7rem; opacity:0.6;">&copy; 2026 ÍZAROcafè. Tutti i diritti riservati.</p>
+    </footer>
+
+    <script>
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 90) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href') === `#${current}`) {
+                    a.classList.add('active');
+                    // Fa scrollare automaticamente la barra delle categorie per tenere visibile quella attiva
+                    a.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
