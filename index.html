@@ -50,6 +50,29 @@
             margin-top: 5px;
         }
 
+        .search-bar {
+            background: var(--card-bg);
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            font-size: 0.95rem;
+            background: var(--bg-color);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            -webkit-appearance: none;
+        }
+
+        .search-bar input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.04);
+        }
+
         nav {
             position: sticky;
             top: 0;
@@ -189,6 +212,32 @@
             font-size: 0.85rem;
         }
 
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .no-results p {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .no-results .hint {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+            margin-top: 8px;
+        }
+
+        .search-active #categories-nav,
+        .search-active .info-box,
+        .search-active .custom-box {
+            display: none;
+        }
+
         footer {
             margin-top: 5px;
             padding: 25px 15px;
@@ -207,22 +256,35 @@
         <div class="logo-sub">Benvenuti. Lasciatevi ispirare.</div>
     </header>
 
+    <div class="search-bar">
+        <input type="search" id="search-input" placeholder="Cerca nel menù..." autocomplete="off">
+    </div>
+
     <nav id="categories-nav"></nav>
 
     <div class="container" id="menu-container"></div>
 
+    <div class="no-results" id="no-results">
+        <p>Nessun prodotto trovato.</p>
+        <p class="hint">Prova con un'altra parola chiave.</p>
+    </div>
+
     <footer id="site-footer"></footer>
 
     <script>
+        let menuData = null;
         let currentSectionId = '';
+        let observer = null;
 
         fetch('data/menu.json')
             .then(r => r.json())
             .then(data => {
+                menuData = data;
                 renderNav(data.sections);
                 renderSections(data);
                 renderFooter(data);
-                initIntersectionObserver(data.sections);
+                initObserver(data.sections);
+                document.getElementById('search-input').addEventListener('input', onSearch);
             });
 
         function renderNav(sections) {
@@ -290,7 +352,9 @@
             `;
         }
 
-        function initIntersectionObserver(sections) {
+        function initObserver(sections) {
+            if (observer) observer.disconnect();
+
             const navLinks = document.querySelectorAll('nav a');
             const offset = 90;
 
@@ -313,13 +377,67 @@
                 }
             };
 
-            const observer = new IntersectionObserver(update, { threshold: 0 });
+            observer = new IntersectionObserver(update, { threshold: 0 });
             sections.forEach(s => {
                 const el = document.getElementById(s.id);
                 if (el) observer.observe(el);
             });
 
             update();
+        }
+
+        function onSearch(e) {
+            const q = e.target.value.trim().toLowerCase();
+            const isSearching = q.length > 0;
+
+            document.body.classList.toggle('search-active', isSearching);
+            document.getElementById('no-results').style.display = 'none';
+
+            if (observer) {
+                observer.disconnect();
+                observer = null;
+            }
+
+            if (!isSearching) {
+                renderSections(menuData);
+                initObserver(menuData.sections);
+                return;
+            }
+
+            const filtered = filterData(menuData, q);
+
+            if (filtered.sections.length === 0) {
+                document.getElementById('menu-container').innerHTML = '';
+                document.getElementById('no-results').style.display = 'block';
+                return;
+            }
+
+            renderSections(filtered);
+        }
+
+        function filterData(data, query) {
+            const q = query.toLowerCase();
+            const sections = data.sections.map(s => {
+                const sectionMatch = s.title.toLowerCase().includes(q);
+                return {
+                    ...s,
+                    content: s.content.map(b => {
+                        if (b.type === 'customBox') return null;
+                        if (sectionMatch) return b;
+                        const subtitleMatch = b.subtitle && b.subtitle.toLowerCase().includes(q);
+                        if (subtitleMatch) return b;
+                        const items = b.items.filter(item =>
+                            item.name.toLowerCase().includes(q) ||
+                            (item.description && item.description.toLowerCase().includes(q)) ||
+                            (item.detail && item.detail.toLowerCase().includes(q)) ||
+                            (item.allergens && item.allergens.toLowerCase().includes(q))
+                        );
+                        return items.length > 0 ? { ...b, items } : null;
+                    }).filter(Boolean)
+                };
+            }).filter(s => s.content.length > 0);
+
+            return { infoBox: data.infoBox, sections, allergenLegend: data.allergenLegend };
         }
     </script>
 </body>
