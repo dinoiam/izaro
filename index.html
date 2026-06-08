@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
             --accent-color: #000000;
             --border-color: #eaeaea;
             --allergen-bg: #f0f0f0;
+            --scroll-margin: 145px;
         }
 
         * {
@@ -50,8 +52,15 @@
             margin-top: 5px;
         }
 
-        .search-bar {
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
             background: var(--card-bg);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-bar {
             padding: 10px 15px;
             border-bottom: 1px solid var(--border-color);
         }
@@ -70,15 +79,10 @@
 
         .search-bar input:focus {
             border-color: var(--accent-color);
-            box-shadow: 0 0 0 2px rgba(0,0,0,0.04);
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.04);
         }
 
         nav {
-            position: sticky;
-            top: 0;
-            background: var(--card-bg);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            z-index: 100;
             overflow-x: auto;
             white-space: nowrap;
             display: flex;
@@ -104,7 +108,8 @@
             transition: all 0.2s ease;
         }
 
-        nav a:active, nav a.active {
+        nav a:active,
+        nav a.active {
             background: var(--accent-color);
             color: #fff;
             border-color: var(--accent-color);
@@ -133,7 +138,10 @@
             margin: 35px 0 15px 0;
             padding-bottom: 8px;
             border-bottom: 2px solid var(--accent-color);
-            scroll-margin-top: 75px;
+        }
+
+        .container section {
+            scroll-margin-top: var(--scroll-margin);
         }
 
         .section-subtitle {
@@ -203,7 +211,7 @@
             border-radius: 0 8px 8px 0;
             margin-top: 15px;
             font-size: 0.9rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
         }
 
         .custom-box h4 {
@@ -249,6 +257,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <header>
@@ -256,13 +265,15 @@
         <div class="logo-sub">Benvenuti. Lasciatevi ispirare.</div>
     </header>
 
-    <div class="search-bar">
-        <input type="search" id="search-input" placeholder="Cerca nel menù..." autocomplete="off">
+    <div class="sticky-header">
+        <div class="search-bar">
+            <input type="search" id="search-input" placeholder="Cerca nel menù..." autocomplete="off">
+        </div>
+
+        <nav id="categories-nav"></nav>
     </div>
 
-    <nav id="categories-nav"></nav>
-
-    <div class="container" id="menu-container"></div>
+    <div class="container" id="container"></div>
 
     <div class="no-results" id="no-results">
         <p>Nessun prodotto trovato.</p>
@@ -275,6 +286,7 @@
         let menuData = null;
         let currentSectionId = '';
         let observer = null;
+        const scrollMargin = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--scroll-margin')) || 145;
 
         fetch('data/menu.json')
             .then(r => r.json())
@@ -285,6 +297,7 @@
                 renderFooter(data);
                 initObserver(data.sections);
                 document.getElementById('search-input').addEventListener('input', onSearch);
+                document.getElementById('container').addEventListener('click', onSectionTitleClick);
             });
 
         function renderNav(sections) {
@@ -295,33 +308,33 @@
         }
 
         function renderSections(data) {
-            const container = document.getElementById('menu-container');
+            const container = document.getElementById('container');
 
             const html = `
                 <div class="info-box">${data.infoBox}</div>
                 ${data.sections.map(section => {
-                    let hasRenderedItem = false;
-                    return `
+                let hasRenderedItem = false;
+                return `
                         <section id="${section.id}">
                             <h2 class="section-title">${section.title}</h2>
                             ${section.content.map(block => {
-                                if (block.type === 'customBox') {
-                                    hasRenderedItem = true;
-                                    const styleAttr = block.style
-                                        ? `style="background:${block.style.background};border-left-color:${block.style.borderLeftColor}"`
-                                        : '';
-                                    return `
+                    if (block.type === 'customBox') {
+                        hasRenderedItem = true;
+                        const styleAttr = block.style
+                            ? `style="background:${block.style.background};border-left-color:${block.style.borderLeftColor}"`
+                            : '';
+                        return `
                                         <div class="custom-box" ${styleAttr}>
                                             ${block.title ? `<h4>${block.title}</h4>` : ''}
                                             ${block.paragraphs.map(p => `<p style="margin-top:${block.paragraphs.indexOf(p) > 0 ? '4' : '0'}px">${p}</p>`).join('')}
                                         </div>
                                     `;
-                                }
-                                const subtitleClass = block.subtitle
-                                    ? (hasRenderedItem ? 'section-subtitle--spaced' : 'section-subtitle--first')
-                                    : '';
-                                hasRenderedItem = true;
-                                return `
+                    }
+                    const subtitleClass = block.subtitle
+                        ? (hasRenderedItem ? 'section-subtitle--spaced' : 'section-subtitle--first')
+                        : '';
+                    hasRenderedItem = true;
+                    return `
                                     ${block.subtitle ? `<p class="section-subtitle ${subtitleClass}">${block.subtitle}</p>` : ''}
                                     ${block.items.map(item => `
                                         <div class="menu-item">
@@ -334,10 +347,10 @@
                                         </div>
                                     `).join('')}
                                 `;
-                            }).join('')}
+                }).join('')}
                         </section>
                     `;
-                }).join('')}
+            }).join('')}
             `;
 
             container.innerHTML = html;
@@ -356,34 +369,34 @@
             if (observer) observer.disconnect();
 
             const navLinks = document.querySelectorAll('nav a');
-            const offset = 90;
+            const visibleSections = new Set();
 
-            const update = () => {
-                const scrollY = window.scrollY;
-                let activeId = sections[0].id;
-                for (const s of sections) {
-                    const el = document.getElementById(s.id);
-                    if (el && scrollY >= el.offsetTop - offset) {
-                        activeId = s.id;
+            observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        visibleSections.add(entry.target.id);
+                    } else {
+                        visibleSections.delete(entry.target.id);
                     }
-                }
-                if (activeId === currentSectionId) return;
+                });
+
+                // Trova la prima sezione visibile nell'ordine del DOM
+                const activeId = sections.find(s => visibleSections.has(s.id))?.id;
+                if (!activeId || activeId === currentSectionId) return;
                 currentSectionId = activeId;
+
                 navLinks.forEach(a => a.classList.remove('active'));
                 const activeLink = document.querySelector(`nav a[href="#${currentSectionId}"]`);
                 if (activeLink) {
                     activeLink.classList.add('active');
                     activeLink.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 }
-            };
+            }, { rootMargin: `-${scrollMargin}px 0px -40% 0px`, threshold: 0 });
 
-            observer = new IntersectionObserver(update, { threshold: 0 });
             sections.forEach(s => {
                 const el = document.getElementById(s.id);
                 if (el) observer.observe(el);
             });
-
-            update();
         }
 
         function onSearch(e) {
@@ -407,7 +420,7 @@
             const filtered = filterData(menuData, q);
 
             if (filtered.sections.length === 0) {
-                document.getElementById('menu-container').innerHTML = '';
+                document.getElementById('container').innerHTML = '';
                 document.getElementById('no-results').style.display = 'block';
                 return;
             }
@@ -439,6 +452,20 @@
 
             return { infoBox: data.infoBox, sections, allergenLegend: data.allergenLegend };
         }
+
+        function onSectionTitleClick(e) {
+            const title = e.target.closest('.section-title');
+            if (title && document.body.classList.contains('search-active')) {
+                const sectionId = title.closest('section').id;
+                const input = document.getElementById('search-input');
+                input.value = '';
+                input.dispatchEvent(new Event('input'));
+                requestAnimationFrame(() => {
+                    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+        }
     </script>
 </body>
+
 </html>
