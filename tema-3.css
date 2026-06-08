@@ -1,0 +1,279 @@
+:root {
+    --bg-color: #fcfbf7;
+    /* Un bianco caldo/avorio stile carta patinata */
+    --card-bg: #ffffff;
+    --text-main: #000000;
+    /* Nero assoluto per contrasti netti */
+    --text-muted: #555555;
+    --accent-color: #000000;
+    --border-color: #000000;
+    /* Bordi neri decisi invece del grigio sfumato */
+    --allergen-bg: #f0f0f0;
+    --scroll-margin: 155px;
+    --pop-cyan: #00b4d8;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+header {
+    background: var(--bg-color);
+    text-align: center;
+    padding: 45px 20px 30px 20px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.logo-svg {
+    width: 130px;
+    height: 130px;
+    margin: 0 auto 12px;
+    display: block;
+}
+
+.logo-sub {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--text-main);
+    font-weight: 700;
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-color);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.search-bar {
+    padding: 15px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 14px 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 0px;
+    /* Angoli netti brutalisti */
+    font-size: 1rem;
+    font-weight: 600;
+    background: var(--card-bg);
+    outline: none;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    -webkit-appearance: none;
+    box-shadow: 4px 4px 0px #000000;
+    /* Ombra solida stile fumetto/design */
+}
+
+.search-bar input:focus {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #000000;
+}
+
+nav {
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    padding: 15px 15px;
+    gap: 10px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+nav::-webkit-scrollbar {
+    display: none;
+}
+
+nav a {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--card-bg);
+    color: var(--text-main);
+    text-decoration: none;
+    border-radius: 0px;
+    /* Via le pillole rotonde, spazio ai blocchi geometrici */
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid var(--border-color);
+    box-shadow: 3px 3px 0px #000000;
+    transition: all 0.1s ease;
+}
+
+/* Effetto click fisico su mobile: il bottone si schiaccia davvero sotto il pollice */
+nav a:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0px 0px 0px #000000;
+}
+
+nav a.active {
+    background: var(--text-main);
+    color: #fff;
+    transform: translate(3px, 3px);
+    box-shadow: 0px 0px 0px #000000;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px 15px;
+}
+
+.info-box {
+    background: #fff;
+    padding: 20px;
+    border: 2px solid var(--border-color);
+    box-shadow: 4px 4px 0px #000000;
+    margin-bottom: 40px;
+    font-size: 0.95rem;
+    text-align: center;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 50px 0 20px 0;
+    padding: 5px 10px;
+    background: #000;
+    color: #fff;
+    /* Titolo della sezione in negativo, impatto fortissimo */
+    display: inline-block;
+}
+
+.container section {
+    scroll-margin-top: var(--scroll-margin);
+}
+
+.section-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-style: italic;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.menu-item {
+    background: var(--card-bg);
+    padding: 18px;
+    margin-bottom: 16px;
+    border-radius: 0px;
+    border: 2px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 4px 0px #000000;
+    transition: all 0.1s ease;
+}
+
+/* La card del piatto si schiaccia al tocco del pollice */
+.menu-item:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px #000000;
+    background-color: #f9f9f9;
+}
+
+.item-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-weight: 800;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+.item-name {
+    padding-right: 15px;
+}
+
+.item-price {
+    white-space: nowrap;
+    background: var(--bg-color);
+    padding: 2px 8px;
+    border: 2px solid #000;
+}
+
+.item-description {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+.allergen {
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    margin-top: 12px;
+    align-self: flex-start;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.custom-box {
+    background: #fff;
+    border: 2px solid var(--border-color);
+    padding: 20px;
+    margin-top: 25px;
+    font-size: 0.95rem;
+    box-shadow: 4px 4px 0px var(--pop-cyan);
+    /* Usa il ciano del logo per un'ombra pop */
+}
+
+.custom-box h4 {
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.no-results {
+    display: none;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.no-results p {
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.search-active #categories-nav,
+.search-active .info-box,
+.search-active .custom-box {
+    display: none;
+}
+
+footer {
+    margin-top: 60px;
+    padding: 40px 20px;
+    background: #000;
+    color: #fff;
+    font-size: 0.85rem;
+    text-align: center;
+    line-height: 1.8;
+}
+
+footer strong {
+    color: var(--pop-cyan);
+}

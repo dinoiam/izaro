@@ -177,7 +177,7 @@
         {
           "type": "customBox",
           "title": "Menu Combo Pranzo (12:00 - 15:00)",
-          "style": { "background": "#fff9e6", "borderLeftColor": "#ffcc00" },
+          "style": { "background": "#fff9e6", "borderLeftColor": "#ffcc00",  "marginBottom": "25px;" },
           "paragraphs": [
             "<strong>Combo Easy (5,50€):</strong> Toast Classico + Acqua + Caffè",
             "<strong>Combo Smart (8,50€):</strong> Piadina o Panino (fino a 6,00€) + Acqua + Caffè",

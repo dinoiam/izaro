@@ -5,254 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ÍZAROcafè - Menù Digitale</title>
+    <link id="theme-stylesheet" rel="stylesheet" type="text/css" href="tema-1.css">
+
+    <button class="stile" onclick="cambiaSfondo()">Premi per Cambiare Stile (verrà rimosso in futuro)</button>
     <style>
-        :root {
-            --bg-color: #f9f9f9;
-            --card-bg: #ffffff;
-            --text-main: #1a1a1a;
-            --text-muted: #666666;
-            --accent-color: #000000;
-            --border-color: #eaeaea;
-            --allergen-bg: #f0f0f0;
-            --scroll-margin: 145px;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.5;
-        }
-
-        header {
-            background: var(--card-bg);
-            text-align: center;
-            padding: 30px 20px 20px 20px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .logo-svg {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 8px;
-            display: block;
-        }
-
-        .logo-sub {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-top: 5px;
-        }
-
-        .sticky-header {
-            position: sticky;
+        .stile {
+            position: fixed;
             top: 0;
-            z-index: 100;
-            background: var(--card-bg);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .search-bar {
-            padding: 10px 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .search-bar input {
-            width: 100%;
-            padding: 10px 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            font-size: 0.95rem;
-            background: var(--bg-color);
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            -webkit-appearance: none;
-        }
-
-        .search-bar input:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.04);
-        }
-
-        nav {
-            overflow-x: auto;
-            white-space: nowrap;
-            display: flex;
-            padding: 12px 10px;
-            gap: 8px;
-            scrollbar-width: none;
-        }
-
-        nav::-webkit-scrollbar {
-            display: none;
-        }
-
-        nav a {
-            display: inline-block;
-            padding: 8px 16px;
-            background: var(--bg-color);
-            color: var(--text-main);
-            text-decoration: none;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s ease;
-        }
-
-        nav a:active,
-        nav a.active {
-            background: var(--accent-color);
-            color: #fff;
-            border-color: var(--accent-color);
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px 15px;
-        }
-
-        .info-box {
-            background: #f1f1f1;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            font-size: 0.9rem;
-            text-align: center;
-            color: var(--text-muted);
-        }
-
-        .section-title {
-            font-size: 1.4rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin: 35px 0 15px 0;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--accent-color);
-        }
-
-        .container section {
-            scroll-margin-top: var(--scroll-margin);
-        }
-
-        .section-subtitle {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-style: italic;
-        }
-
-        .section-subtitle--first {
-            margin-top: -10px;
-            margin-bottom: 20px;
-        }
-
-        .section-subtitle--spaced {
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-
-        .menu-item {
-            background: var(--card-bg);
-            padding: 14px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .item-main {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            font-weight: 600;
-            font-size: 1.05rem;
-        }
-
-        .item-name {
-            padding-right: 15px;
-        }
-
-        .item-price {
-            white-space: nowrap;
-        }
-
-        .item-description {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        .allergen {
-            display: inline-block;
-            background: var(--allergen-bg);
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-top: 6px;
-            align-self: flex-start;
-            font-weight: bold;
-        }
-
-        .custom-box {
-            background: #fff;
-            border-left: 4px solid var(--accent-color);
-            padding: 15px;
-            border-radius: 0 8px 8px 0;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
-        }
-
-        .custom-box h4 {
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-        }
-
-        .no-results {
-            display: none;
-            text-align: center;
-            padding: 60px 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .no-results p {
-            font-size: 1rem;
-            color: var(--text-muted);
-        }
-
-        .no-results .hint {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            opacity: 0.7;
-            margin-top: 8px;
-        }
-
-        .search-active #categories-nav,
-        .search-active .info-box,
-        .search-active .custom-box {
-            display: none;
-        }
-
-        footer {
-            margin-top: 5px;
-            padding: 25px 15px;
-            background: #fff;
-            border-top: 1px solid var(--border-color);
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-align: center;
+            right: 0;
+            padding: 5px;
+            background-color: #78a8ff;
+            color: rgb(75, 60, 60);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+            width: 40%;
         }
     </style>
 </head>
@@ -320,7 +88,7 @@
                     if (block.type === 'customBox') {
                         hasRenderedItem = true;
                         const styleAttr = block.style
-                            ? `style="background:${block.style.background};border-left-color:${block.style.borderLeftColor}"`
+                            ? `style="background:${block.style.background};border-left-color:${block.style.borderLeftColor};margin-bottom:${block.style.marginBottom}"`
                             : '';
                         return `
                                         <div class="custom-box" ${styleAttr}>
@@ -463,6 +231,26 @@
                     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
                 });
             }
+        }
+        function cambiaSfondo() {
+            console.log("Cambia sfondo chiamata");
+            var themeLink = document.getElementById('theme-stylesheet');
+            const currentHref = themeLink.getAttribute('href');
+
+            // Trova il numero all'interno del nome del file (es. da "tema-1.css" estrae 1)
+            const currentNumber = parseInt(currentHref.match(/\d+/)[0]);
+
+            // Calcola il prossimo numero (se è 3 torna a 1, altrimenti aumenta di 1)
+            let nextNumber = currentNumber + 1;
+            if (nextNumber > 3) {
+                nextNumber = 1;
+            }
+
+            // Applica il nuovo file CSS
+            themeLink.setAttribute('href', `tema-${nextNumber}.css`);
+
+            // Opzionale: salva la scelta nel browser così se l'utente aggiorna la pagina non perde il tema
+            localStorage.setItem('selected-theme', nextNumber);
         }
     </script>
 </body>

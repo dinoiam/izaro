@@ -1,0 +1,284 @@
+:root {
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-main: #111111;
+    --text-muted: #6c757d;
+    --accent-color: #000000;
+    --border-color: #e9ecef;
+    --allergen-bg: #f1f3f5;
+    --scroll-margin: 145px;
+    /* Colore pop estratto dal mosaico del tuo logo */
+    --pop-cyan: #00b4d8;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+header {
+    background: var(--card-bg);
+    text-align: center;
+    padding: 40px 20px 25px 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo-svg {
+    width: 125px;
+    height: 125px;
+    margin: 0 auto 10px;
+    display: block;
+}
+
+.logo-sub {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Header sticky con effetto vetro sfumato premium per mobile */
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.search-bar {
+    padding: 12px 15px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 12px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    font-size: 0.95rem;
+    background: var(--bg-color);
+    outline: none;
+    transition: all 0.2s ease;
+    -webkit-appearance: none;
+}
+
+/* Focus sulla ricerca con richiamo ciano del logo */
+.search-bar input:focus {
+    border-color: var(--accent-color);
+    background: var(--card-bg);
+    box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15);
+}
+
+nav {
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    padding: 2px 15px 14px 15px;
+    gap: 8px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    /* Scorrimento fluido a scorrimento inerziale su iOS */
+}
+
+nav::-webkit-scrollbar {
+    display: none;
+}
+
+nav a {
+    display: inline-block;
+    padding: 8px 18px;
+    background: #eef1f4;
+    color: var(--text-main);
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+nav a:active {
+    transform: scale(0.95);
+    /* Feedback di pressione immediata */
+}
+
+nav a.active {
+    background: var(--accent-color);
+    color: #fff;
+    border-color: var(--accent-color);
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 25px 15px;
+}
+
+/* Trasformata in una nota minimalista stile caffetteria moderna */
+.info-box {
+    background: transparent;
+    padding: 18px 10px;
+    border-top: 1px dashed var(--text-main);
+    border-bottom: 1px dashed var(--text-main);
+    border-radius: 0;
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+    text-align: center;
+    color: var(--text-main);
+    font-style: italic;
+}
+
+.section-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 40px 0 15px 0;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--accent-color);
+}
+
+.container section {
+    scroll-margin-top: var(--scroll-margin);
+}
+
+.section-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.section-subtitle--first {
+    margin-top: -8px;
+    margin-bottom: 20px;
+}
+
+.section-subtitle--spaced {
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+.menu-item {
+    background: var(--card-bg);
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.01);
+    transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+/* Feedback tattile quando il dito preme sulla card del piatto */
+.menu-item:active {
+    transform: scale(0.98);
+    background-color: #fafafa;
+}
+
+.item-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -0.3px;
+}
+
+.item-name {
+    padding-right: 15px;
+}
+
+.item-price {
+    white-space: nowrap;
+    font-weight: 700;
+}
+
+.item-description {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    font-weight: 400;
+}
+
+.allergen {
+    display: inline-block;
+    background: var(--allergen-bg);
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 6px;
+    margin-top: 10px;
+    align-self: flex-start;
+    font-weight: 600;
+}
+
+.custom-box {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+    padding: 16px;
+    border-radius: 0 12px 12px 0;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.custom-box h4 {
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.no-results {
+    display: none;
+    text-align: center;
+    padding: 80px 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.no-results p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.no-results .hint {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    opacity: 0.8;
+}
+
+.search-active #categories-nav,
+.search-active .info-box,
+.search-active .custom-box {
+    display: none;
+}
+
+footer {
+    margin-top: 40px;
+    padding: 35px 20px;
+    background: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.7;
+}
