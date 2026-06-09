@@ -1,10 +1,10 @@
 {
-  "infoBox": "Per offrire l'eccellenza in tazzina, utilizziamo esclusivamente la Miscela Italia della torrefazione Caffè Crème.",
   "sections": [
     {
       "id": "caffetteria",
       "label": "Caffetteria",
       "title": "La nostra Selezione Caffè",
+      "infoBox": "Per offrire l'eccellenza in tazzina, utilizziamo esclusivamente la Miscela Italia della torrefazione Caffè Crème: un blend ricercato, pensato per chi cerca l'equilibrio perfetto tra intensità e cremosità.",
       "content": [
         {
           "type": "items",
@@ -36,11 +36,11 @@
           "type": "customBox",
           "title": "Personalizza il tuo momento",
           "paragraphs": [
-            "<strong>Varianti:</strong> Macchiato (+0,20€) | Ginseng o Orzo (+0,30€) | Decaffeinato (+0,10€)",
-            "<strong>Scelte Veg/Intolleranze:</strong> Bevanda vegetale o latte senza lattosio (+0,20€)",
-            "<strong>Extra:</strong> Panna Montata (+0,50€)",
-            "<strong>Correzioni:</strong> Con Sambuca, Zabov o Borghetti (+0,50€) | Con Baileys o distillati (+0,80€)",
-            "<em>Nota: Per i prodotti di caffetteria da asporto è previsto un supplemento di 0,10€ a pezzo.</em>"
+            "<strong>Varianti:</strong> Macchiato (+0,20 €) | Ginseng o Orzo (+0,30 €) | Decaffeinato (+0,10 €)",
+            "<strong>Scelte Veg/Intolleranze:</strong> Bevanda vegetale o latte senza lattosio (+0,20 €)",
+            "<strong>Extra:</strong> Panna Montata (+0,50 €)",
+            "<strong>Correzioni:</strong> Con Sambuca, Zabov o Borghetti (+0,50 €) | Con Baileys o distillati (+0,80 €)",
+            "<strong>Nota:</strong> Per i prodotti di caffetteria da asporto è previsto un supplemento di 0,10 € a pezzo."
           ]
         }
       ]

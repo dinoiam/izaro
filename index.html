@@ -9,7 +9,6 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/png" sizes="96x96" href="immagini/logo.png">
 
-    <button class="stile" onclick="cambiaSfondo()">Premi per Cambiare Stile (verrà rimosso in futuro)</button>
     <style>
         .stile {
             position: fixed;
@@ -80,12 +79,12 @@
             const container = document.getElementById('container');
 
             const html = `
-                <div class="info-box">${data.infoBox}</div>
                 ${data.sections.map(section => {
                 let hasRenderedItem = false;
                 return `
                         <section id="${section.id}">
                             <h2 class="section-title">${section.title}</h2>
+                            ${section.infoBox ? `<div class="info-box">${section.infoBox}</div>` : ''}
                             ${section.content.map(block => {
                     if (block.type === 'customBox') {
                         hasRenderedItem = true;
@@ -109,10 +108,10 @@
                                         <div class="menu-item">
                                             <div class="item-main">
                                                 <span class="item-name">${item.name}${item.detail ? ` <small style="font-weight:normal;color:var(--text-muted)">${item.detail}</small>` : ''}</span>
+                                                ${item.allergens ? `<span class="allergen">(${item.allergens})</span>` : ''}
                                                 <span class="item-price">${item.price}</span>
                                             </div>
                                             ${item.description ? `<div class="item-description">${item.description}</div>` : ''}
-                                            ${item.allergens ? `<span class="allergen">${item.allergens}</span>` : ''}
                                         </div>
                                     `).join('')}
                                 `;
@@ -233,26 +232,6 @@
                     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
                 });
             }
-        }
-        function cambiaSfondo() {
-            console.log("Cambia sfondo chiamata");
-            var themeLink = document.getElementById('theme-stylesheet');
-            const currentHref = themeLink.getAttribute('href');
-
-            // Trova il numero all'interno del nome del file (es. da "tema-1.css" estrae 1)
-            const currentNumber = parseInt(currentHref.match(/\d+/)[0]);
-
-            // Calcola il prossimo numero (se è 3 torna a 1, altrimenti aumenta di 1)
-            let nextNumber = currentNumber + 1;
-            if (nextNumber > 3) {
-                nextNumber = 1;
-            }
-
-            // Applica il nuovo file CSS
-            themeLink.setAttribute('href', `tema-${nextNumber}.css`);
-
-            // Opzionale: salva la scelta nel browser così se l'utente aggiorna la pagina non perde il tema
-            localStorage.setItem('selected-theme', nextNumber);
         }
     </script>
 </body>

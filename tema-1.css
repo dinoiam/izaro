@@ -124,12 +124,12 @@ nav a.active {
 .container {
     max-width: 600px;
     margin: 0 auto;
-    padding: 25px 15px;
+    padding: 0 15px;
 }
 
 /* Trasformata in una nota minimalista stile caffetteria moderna */
 .info-box {
-    background: transparent;
+    /* background: transparent;
     padding: 18px 10px;
     border-top: 1px dashed var(--text-main);
     border-bottom: 1px dashed var(--text-main);
@@ -138,40 +138,56 @@ nav a.active {
     font-size: 0.9rem;
     text-align: center;
     color: var(--text-main);
+    font-style: italic; */
+
+    text-align: center;
     font-style: italic;
+    border-bottom: 2px solid #8b7355;
+    /* Linea marrone solida come nell'immagine */
+    padding-bottom: 5px;
+    margin-bottom: 30px;
+    font-size: 0.9rem;
 }
 
 .section-title {
-    font-size: 1.3rem;
+    /* font-size: 1.3rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin: 40px 0 15px 0;
     padding-bottom: 6px;
-    border-bottom: 1px solid var(--accent-color);
+    border-bottom: 1px solid var(--accent-color); */
+
+    text-align: center;
+    border-bottom: none;
+    /* Rimuoviamo la linea attuale */
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
 }
 
 .container section {
     scroll-margin-top: var(--scroll-margin);
+    margin: 45px 0;
 }
 
-.section-subtitle {
+/* .section-subtitle {
     font-size: 0.85rem;
     color: var(--text-muted);
     font-style: italic;
+} */
+.section-subtitle {
+    background-color: #4a3c31;
+    /* Marrone scuro */
+    color: #ffffff;
+    padding: 0 15px 10px 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-top: 30px;
 }
 
-.section-subtitle--first {
-    margin-top: -8px;
-    margin-bottom: 20px;
-}
-
-.section-subtitle--spaced {
-    margin-top: 25px;
-    margin-bottom: 15px;
-}
-
-.menu-item {
+/* .menu-item {
     background: var(--card-bg);
     padding: 16px;
     margin-bottom: 12px;
@@ -181,30 +197,52 @@ nav a.active {
     flex-direction: column;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.01);
     transition: transform 0.1s ease, background-color 0.1s ease;
-}
+} */
 
-/* Feedback tattile quando il dito preme sulla card del piatto */
+/* Feedback tattile quando il dito preme sulla card del piatto
 .menu-item:active {
     transform: scale(0.98);
     background-color: #fafafa;
-}
+} */
 
-.item-main {
+/* .item-main {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     font-weight: 700;
     font-size: 1.05rem;
     letter-spacing: -0.3px;
-}
-
-.item-name {
     padding-right: 15px;
 }
 
 .item-price {
     white-space: nowrap;
     font-weight: 700;
+} */
+
+.menu-item {
+    border: none;
+    background: transparent;
+    padding: 8px 0;
+    align-items: baseline;
+}
+
+.item-main {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.item-name {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.item-price {
+    font-weight: bold;
+    margin-left: auto;
 }
 
 .item-description {
@@ -216,17 +254,15 @@ nav a.active {
 
 .allergen {
     display: inline-block;
-    background: var(--allergen-bg);
     color: var(--text-muted);
     font-size: 0.7rem;
-    padding: 3px 8px;
-    border-radius: 6px;
-    margin-top: 10px;
-    align-self: flex-start;
+    padding: 0 8px;
     font-weight: 600;
+    text-transform: lowercase;
+    font-style: italic;
 }
 
-.custom-box {
+/* .custom-box {
     background: #fff;
     border: 1px solid var(--border-color);
     border-left: 4px solid var(--accent-color);
@@ -243,6 +279,26 @@ nav a.active {
     font-size: 0.85rem;
     letter-spacing: 1px;
     font-weight: 700;
+} */
+
+.custom-box {
+    background-color: #efeeed;
+    border-left: 5px solid #a08d7c;
+    border-bottom: none;
+    padding: 10px;
+    margin: 30px 0 0 0;
+}
+
+.custom-box p {
+    font-size: 0.9rem;
+}
+
+.custom-box h4 {
+    text-transform: uppercase;
+    color: #4a3c31;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    font-size: 1rem;
 }
 
 .no-results {
