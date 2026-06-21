@@ -9,28 +9,146 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/png" sizes="96x96" href="immagini/logo.png">
 
+    <!-- Inclusione di FontAwesome per le icone di telefono, whatsapp e geo -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
+        /* Pulsante Cambio Tema grafico */
         .stile {
             position: fixed;
-            top: 0;
-            right: 0;
-            padding: 5px;
+            top: 15px;
+            left: 15px;
+            padding: 6px 12px;
             background-color: #78a8ff;
             color: rgb(75, 60, 60);
             border: none;
-            border-radius: 5px;
+            border-radius: 20px;
             cursor: pointer;
-            z-index: 1000;
-            width: 40%;
+            z-index: 2000;
+            font-size: 0.75rem;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Selettore Lingua in alto a destra */
+        .language-switcher {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 2000;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(5px);
+            padding: 4px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 2px;
+        }
+
+        .lang-btn {
+            border: none;
+            background: none;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 15px;
+            color: #555;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn.active {
+            background-color: #333;
+            color: #fff;
+        }
+
+        /* Stili per l'effetto accordion sulle descrizioni dei prodotti */
+        .menu-item {
+            cursor: pointer;
+            padding: 10px 0;
+        }
+
+        .item-description {
+            display: none;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Mostra la descrizione solo quando il prodotto è attivo */
+        .menu-item.active .item-description {
+            display: block;
+        }
+
+        /* Contatti Rapidi e info attività nel Footer */
+        .business-info {
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 15px;
+        }
+
+        .business-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .business-info p {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin: 3px 0;
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .contact-btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-phone {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: #fff;
         }
     </style>
 </head>
 
 <body>
 
+    <!-- Pulsante Cambio Tema Selezionato -->
+    <button class="stile" onclick="toggleTheme()">Cambia Tema</button>
+
+    <!-- Selettore Lingua -->
+    <div class="language-switcher">
+        <button class="lang-btn active" onclick="switchLanguage('it')">IT</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">EN</button>
+    </div>
+
     <header>
         <img src="logo.svg" alt="ÍZAROcafè" class="logo-svg">
-        <div class="logo-sub">Benvenuti. Lasciatevi ispirare.</div>
+        <div class="logo-sub" id="logo-sub-text">Benvenuti. Lasciatevi ispirare.</div>
     </header>
 
     <div class="sticky-header">
@@ -44,8 +162,8 @@
     <div class="container" id="container"></div>
 
     <div class="no-results" id="no-results">
-        <p>Nessun prodotto trovato.</p>
-        <p class="hint">Prova con un'altra parola chiave.</p>
+        <p id="no-results-title">Nessun prodotto trovato.</p>
+        <p class="hint" id="no-results-hint">Prova con un'altra parola chiave.</p>
     </div>
 
     <footer id="site-footer"></footer>
@@ -54,24 +172,77 @@
         let menuData = null;
         let currentSectionId = '';
         let observer = null;
+        let currentLang = 'it'; // Lingua di default
+
+        const placeholders = {
+            it: { search: "Cerca nel menù...", sub: "Benvenuti. Lasciatevi ispirare.", noRes: "Nessun prodotto trovato.", hint: "Prova con un'altra parola chiave." },
+            en: { search: "Search menu...", sub: "Welcome. Let yourself be inspired.", noRes: "No products found.", hint: "Try another keyword." }
+        };
+
         const scrollMargin = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--scroll-margin')) || 145;
 
         fetch('data/menu.json')
             .then(r => r.json())
             .then(data => {
                 menuData = data;
+                updateStaticTexts();
                 renderNav(data.sections);
                 renderSections(data);
                 renderFooter(data);
                 initObserver(data.sections);
+                initAccordion();
                 document.getElementById('search-input').addEventListener('input', onSearch);
                 document.getElementById('container').addEventListener('click', onSectionTitleClick);
             });
 
+        // Funzione per alternare i fogli di stile (Tema)
+        function toggleTheme() {
+            const themeStyle = document.getElementById('theme-stylesheet');
+            if (themeStyle.getAttribute('href') === 'tema-1.css') {
+                themeStyle.setAttribute('href', 'tema-2.css');
+            } else {
+                themeStyle.setAttribute('href', 'tema-1.css');
+            }
+        }
+
+        function updateStaticTexts() {
+            document.getElementById('search-input').placeholder = placeholders[currentLang].search;
+            document.getElementById('logo-sub-text').innerText = placeholders[currentLang].sub;
+            document.getElementById('no-results-title').innerText = placeholders[currentLang].noRes;
+            document.getElementById('no-results-hint').innerText = placeholders[currentLang].hint;
+            
+            // Aggiorna il testo del bottone tema in base alla lingua
+            const themeBtn = document.querySelector('.stile');
+            if (themeBtn) {
+                themeBtn.innerText = currentLang === 'it' ? 'Cambia Tema' : 'Change Theme';
+            }
+        }
+
+        function switchLanguage(lang) {
+            if (lang === currentLang) return;
+            currentLang = lang;
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText.toLowerCase() === lang);
+            });
+
+            const input = document.getElementById('search-input');
+            input.value = '';
+            document.body.classList.remove('search-active');
+            document.getElementById('no-results').style.display = 'none';
+
+            updateStaticTexts();
+            renderNav(menuData.sections);
+            renderSections(menuData);
+            renderFooter(menuData);
+            initObserver(menuData.sections);
+            initAccordion();
+        }
+
         function renderNav(sections) {
             const nav = document.getElementById('categories-nav');
             nav.innerHTML = sections.map(s =>
-                `<a href="#${s.id}">${s.label}</a>`
+                `<a href="#${s.id}">${s.label[currentLang]}</a>`
             ).join('');
         }
 
@@ -83,18 +254,19 @@
                 let hasRenderedItem = false;
                 return `
                         <section id="${section.id}">
-                            <h2 class="section-title">${section.title}</h2>
-                            ${section.infoBox ? `<div class="info-box">${section.infoBox}</div>` : ''}
+                            <h2 class="section-title">${section.title[currentLang]}</h2>
+                            ${section.infoBox ? `<div class="info-box">${section.infoBox[currentLang]}</div>` : ''}
                             ${section.content.map(block => {
                     if (block.type === 'customBox') {
                         hasRenderedItem = true;
                         const styleAttr = block.style
                             ? `style="background:${block.style.background};border-left-color:${block.style.borderLeftColor};margin-bottom:${block.style.marginBottom}"`
                             : '';
+                        const paragraphs = block.paragraphs[currentLang] || [];
                         return `
                                         <div class="custom-box" ${styleAttr}>
-                                            ${block.title ? `<h4>${block.title}</h4>` : ''}
-                                            ${block.paragraphs.map(p => `<p style="margin-top:${block.paragraphs.indexOf(p) > 0 ? '4' : '0'}px">${p}</p>`).join('')}
+                                            ${block.title ? `<h4>${block.title[currentLang]}</h4>` : ''}
+                                            ${paragraphs.map(p => `<p style="margin-top:${paragraphs.indexOf(p) > 0 ? '4' : '0'}px">${p}</p>`).join('')}
                                         </div>
                                     `;
                     }
@@ -103,17 +275,20 @@
                         : '';
                     hasRenderedItem = true;
                     return `
-                                    ${block.subtitle ? `<p class="section-subtitle ${subtitleClass}">${block.subtitle}</p>` : ''}
-                                    ${block.items.map(item => `
+                                    ${block.subtitle ? `<p class="section-subtitle ${subtitleClass}">${block.subtitle[currentLang]}</p>` : ''}
+                                    ${block.items.map(item => {
+                        // Gestione traduzione del campo dettaglio (se è un oggetto o stringa)
+                        const detailText = item.detail ? (typeof item.detail === 'object' ? item.detail[currentLang] : item.detail) : '';
+                        return `
                                         <div class="menu-item">
                                             <div class="item-main">
-                                                <span class="item-name">${item.name}${item.detail ? ` <small style="font-weight:normal;color:var(--text-muted)">${item.detail}</small>` : ''}</span>
+                                                <span class="item-name">${item.name[currentLang]}${detailText ? ` <small style="font-weight:normal;color:var(--text-muted)">${detailText}</small>` : ''}</span>
                                                 ${item.allergens ? `<span class="allergen">(${item.allergens})</span>` : ''}
                                                 <span class="item-price">${item.price}</span>
                                             </div>
-                                            ${item.description ? `<div class="item-description">${item.description}</div>` : ''}
+                                            ${item.description ? `<div class="item-description">${item.description[currentLang]}</div>` : ''}
                                         </div>
-                                    `).join('')}
+                                    `}).join('')}
                                 `;
                 }).join('')}
                         </section>
@@ -126,10 +301,34 @@
 
         function renderFooter(data) {
             const footer = document.getElementById('site-footer');
+            
+            const copyrightText = currentLang === 'it' ? 'Tutti i diritti riservati.' : 'All rights reserved.';
+            const staffText = currentLang === 'it' ? 'Il registro completo è disponibile presso il nostro personale.' : 'The complete log is available with our staff.';
+            const cityText = "Barletta (BT), Italia";
+            
+            const callText = currentLang === 'it' ? 'Chiama Ora' : 'Call Now';
+            const whatsappText = currentLang === 'it' ? 'Scrivici' : 'Message Us';
+
             footer.innerHTML = `
-                <p><strong>${data.allergenLegend}</strong></p>
-                <p style="margin-top: 10px;">Il registro completo è disponibile presso il nostro personale.</p>
-                <p style="margin-top: 15px; font-size:0.7rem; opacity:0.6;">&copy; 2026 ÍZAROcafè. Tutti i diritti riservati.</p>
+                <!-- Dati Attività -->
+                <div class="business-info">
+                    <h3>ÍZAROcafè</h3>
+                    <p><i class="fa-solid fa-location-dot"></i> Via ... , ${cityText}</p>
+                </div>
+
+                <!-- Chiamata Rapida e WhatsApp -->
+                <div class="contact-buttons">
+                    <a href="tel:+390000000000" class="contact-btn btn-phone">
+                        <i class="fa-solid fa-phone"></i> ${callText}
+                    </a>
+                    <a href="https://wa.me/390000000000" target="_blank" class="contact-btn btn-whatsapp">
+                        <i class="fa-brands fa-whatsapp"></i> ${whatsappText}
+                    </a>
+                </div>
+
+                <p style="margin-top: 20px;"><strong>${data.allergenLegend[currentLang]}</strong></p>
+                <p style="margin-top: 10px;">${staffText}</p>
+                <p style="margin-top: 15px; font-size:0.7rem; opacity:0.6;">&copy; 2026 ÍZAROcafè. ${copyrightText}</p>
             `;
         }
 
@@ -148,7 +347,6 @@
                     }
                 });
 
-                // Trova la prima sezione visibile nell'ordine del DOM
                 const activeId = sections.find(s => visibleSections.has(s.id))?.id;
                 if (!activeId || activeId === currentSectionId) return;
                 currentSectionId = activeId;
@@ -167,6 +365,26 @@
             });
         }
 
+        function initAccordion() {
+            const container = document.getElementById('container');
+            
+            container.removeEventListener('click', handleAccordionClick);
+            container.addEventListener('click', handleAccordionClick);
+        }
+
+        function handleAccordionClick(e) {
+            if (e.target.closest('.contact-btn') || e.target.closest('.business-info')) return;
+
+            const menuItem = e.target.closest('.menu-item');
+            if (menuItem && menuItem.querySelector('.item-description')) {
+                document.querySelectorAll('.menu-item.active').forEach(item => {
+                    if (item !== menuItem) item.classList.remove('active');
+                });
+                
+                menuItem.classList.toggle('active');
+            }
+        }
+
         function onSearch(e) {
             const q = e.target.value.trim().toLowerCase();
             const isSearching = q.length > 0;
@@ -182,6 +400,7 @@
             if (!isSearching) {
                 renderSections(menuData);
                 initObserver(menuData.sections);
+                initAccordion();
                 return;
             }
 
@@ -194,25 +413,27 @@
             }
 
             renderSections(filtered);
+            initAccordion();
         }
 
         function filterData(data, query) {
             const q = query.toLowerCase();
             const sections = data.sections.map(s => {
-                const sectionMatch = s.title.toLowerCase().includes(q);
+                const sectionMatch = s.title[currentLang].toLowerCase().includes(q);
                 return {
                     ...s,
                     content: s.content.map(b => {
                         if (b.type === 'customBox') return null;
                         if (sectionMatch) return b;
-                        const subtitleMatch = b.subtitle && b.subtitle.toLowerCase().includes(q);
+                        const subtitleMatch = b.subtitle && b.subtitle[currentLang].toLowerCase().includes(q);
                         if (subtitleMatch) return b;
-                        const items = b.items.filter(item =>
-                            item.name.toLowerCase().includes(q) ||
-                            (item.description && item.description.toLowerCase().includes(q)) ||
-                            (item.detail && item.detail.toLowerCase().includes(q)) ||
-                            (item.allergens && item.allergens.toLowerCase().includes(q))
-                        );
+                        const items = b.items.filter(item => {
+                            const detailText = item.detail ? (typeof item.detail === 'object' ? item.detail[currentLang] : item.detail) : '';
+                            return item.name[currentLang].toLowerCase().includes(q) ||
+                                (item.description && item.description[currentLang].toLowerCase().includes(q)) ||
+                                (detailText && detailText.toLowerCase().includes(q)) ||
+                                (item.allergens && item.allergens.toLowerCase().includes(q));
+                        });
                         return items.length > 0 ? { ...b, items } : null;
                     }).filter(Boolean)
                 };
