@@ -107,9 +107,11 @@
                                     ${block.items.map(item => `
                                         <div class="menu-item">
                                             <div class="item-main">
-                                                <span class="item-name">${item.name}${item.detail ? ` <small style="font-weight:normal;color:var(--text-muted)">${item.detail}</small>` : ''}</span>
-                                                ${item.allergens ? `<span class="allergen">(${item.allergens})</span>` : ''}
-                                                <span class="item-price">${item.price}</span>
+                                                <div class="item-title">
+                                                    <span class="item-name">${item.name}${item.detail ? ` <small style="font-weight:normal;color:var(--text-muted)">${item.detail}</small>` : ''}</span>
+                                                    ${item.allergens ? `<span class="allergen">(${item.allergens})</span>` : ''}
+                                                </div>
+                                                <span class="item-price">${item.price ? item.price.replace(/€\s*/, '€\u00A0') : ''}</span>
                                             </div>
                                             ${item.description ? `<div class="item-description">${item.description}</div>` : ''}
                                         </div>
@@ -167,8 +169,12 @@
             });
         }
 
+        function normalizeText(str) {
+            return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
         function onSearch(e) {
-            const q = e.target.value.trim().toLowerCase();
+            const q = normalizeText(e.target.value.trim());
             const isSearching = q.length > 0;
 
             document.body.classList.toggle('search-active', isSearching);
@@ -197,21 +203,21 @@
         }
 
         function filterData(data, query) {
-            const q = query.toLowerCase();
+            const q = normalizeText(query);
             const sections = data.sections.map(s => {
-                const sectionMatch = s.title.toLowerCase().includes(q);
+                const sectionMatch = normalizeText(s.title).includes(q);
                 return {
                     ...s,
                     content: s.content.map(b => {
                         if (b.type === 'customBox') return null;
                         if (sectionMatch) return b;
-                        const subtitleMatch = b.subtitle && b.subtitle.toLowerCase().includes(q);
+                        const subtitleMatch = b.subtitle && normalizeText(b.subtitle).includes(q);
                         if (subtitleMatch) return b;
                         const items = b.items.filter(item =>
-                            item.name.toLowerCase().includes(q) ||
-                            (item.description && item.description.toLowerCase().includes(q)) ||
-                            (item.detail && item.detail.toLowerCase().includes(q)) ||
-                            (item.allergens && item.allergens.toLowerCase().includes(q))
+                            normalizeText(item.name).includes(q) ||
+                            (item.description && normalizeText(item.description).includes(q)) ||
+                            (item.detail && normalizeText(item.detail).includes(q)) ||
+                            (item.allergens && normalizeText(item.allergens).includes(q))
                         );
                         return items.length > 0 ? { ...b, items } : null;
                     }).filter(Boolean)

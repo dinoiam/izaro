@@ -195,17 +195,29 @@ nav a.active {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.75rem;
     font-weight: 600;
     font-size: 1.05rem;
 }
 
+.item-title {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    min-width: 0;
+}
+
 .item-name {
-    padding-right: 15px;
+    padding-right: 0;
+    min-width: 0;
 }
 
 .item-price {
     white-space: nowrap;
     font-weight: 500;
+    flex-shrink: 0;
 }
 
 .item-description {
@@ -216,15 +228,16 @@ nav a.active {
 }
 
 .allergen {
-    display: inline-block;
+    display: inline-flex;
     background: var(--allergen-bg);
     color: var(--text-muted);
     font-size: 0.65rem;
     padding: 2px 6px;
     border-radius: 4px;
-    margin-top: 8px;
-    align-self: flex-start;
+    margin-top: 4px;
+    align-self: center;
     letter-spacing: 0.5px;
+    white-space: nowrap;
 }
 
 .custom-box {
