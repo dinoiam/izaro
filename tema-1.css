@@ -23,6 +23,9 @@ body {
     background-color: var(--bg-color);
     color: var(--text-main);
     line-height: 1.6;
+        min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -128,18 +131,7 @@ nav a.active {
     padding: 0 15px;
 }
 
-/* Trasformata in una nota minimalista stile caffetteria moderna */
 .info-box {
-    /* background: transparent;
-    padding: 18px 10px;
-    border-top: 1px dashed var(--text-main);
-    border-bottom: 1px dashed var(--text-main);
-    border-radius: 0;
-    margin-bottom: 30px;
-    font-size: 0.9rem;
-    text-align: center;
-    color: var(--text-main);
-    font-style: italic; */
 
     text-align: center;
     font-style: italic;
@@ -151,14 +143,6 @@ nav a.active {
 }
 
 .section-title {
-    /* font-size: 1.3rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin: 40px 0 15px 0;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--accent-color); */
-
     text-align: center;
     border-bottom: none;
     /* Rimuoviamo la linea attuale */
@@ -187,39 +171,6 @@ nav a.active {
     letter-spacing: 1px;
     margin-top: 30px;
 }
-
-/* .menu-item {
-    background: var(--card-bg);
-    padding: 16px;
-    margin-bottom: 12px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.01);
-    transition: transform 0.1s ease, background-color 0.1s ease;
-} */
-
-/* Feedback tattile quando il dito preme sulla card del piatto
-.menu-item:active {
-    transform: scale(0.98);
-    background-color: #fafafa;
-} */
-
-/* .item-main {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    font-weight: 700;
-    font-size: 1.05rem;
-    letter-spacing: -0.3px;
-    padding-right: 15px;
-}
-
-.item-price {
-    white-space: nowrap;
-    font-weight: 700;
-} */
 
 .menu-item {
     border: none;
@@ -263,25 +214,6 @@ nav a.active {
     font-style: italic;
 }
 
-/* .custom-box {
-    background: #fff;
-    border: 1px solid var(--border-color);
-    border-left: 4px solid var(--accent-color);
-    padding: 16px;
-    border-radius: 0 12px 12px 0;
-    margin-top: 20px;
-    font-size: 0.9rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-}
-
-.custom-box h4 {
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    font-weight: 700;
-} */
-
 .custom-box {
     background-color: #efeeed;
     border-left: 5px solid #a08d7c;
@@ -308,6 +240,7 @@ nav a.active {
     padding: 80px 20px;
     max-width: 600px;
     margin: 0 auto;
+    flex: 1;
 }
 
 .no-results p {
