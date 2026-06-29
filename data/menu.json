@@ -17,13 +17,14 @@
             },
             {
               "name": "Espresso Macchiato",
-              "description": "L'aroma intenso e la crema compatta di un classico senza tempo macchiato con crema di latte.",
-              "price": "€ 1,20"
+              "description": "L'intensità dell'espresso classico, macchiato a scelta con crema di latte calda o latte freddo.",
+              "price": "€ 1,20",
+              "allergens": "ALL. 7"
             },
             {
               "name": "Espressino",
               "price": "€ 1,30",
-              "description": "Un mini-cappuccino in piccolo formato, arricchito da una golosa spolverata di cacao.",
+              "description": "Un perfetto equilibrio di espresso e vellutata crema di latte, completato da una golosa spolverata di cacao.",
               "allergens": "ALL. 7"
             },
             {
@@ -33,8 +34,14 @@
               "allergens": "ALL. 7"
             },
             {
+              "name": "Mokaccino",
+              "price": "€ 1,80",
+              "description": "Un goloso incontro tra il calore dell'espresso, la morbidezza della crema di latte e l'intensa dolcezza del cioccolato.",
+              "allergens": "ALL. 7"
+            },
+            {
               "name": "Caffellatte",
-              "price": "€ 1,50",
+              "price": "€ 1,70",
               "description": "Il sapore avvolgente del caffè unito a un'ampia e confortevole parte di latte.",
               "allergens": "ALL. 7"
             },
@@ -80,7 +87,7 @@
             },
             {
               "name": "Caffè in Ghiaccio",
-              "description": "Il contrasto perfetto tra il calore dell'espresso bollente e la purezza del ghiaccio.",
+              "description": "Espresso appena estratto servito con un bicchiere di ghiaccio a parte, pronto da versare per preservare tutto l'aroma del caffè.",
               "price": "€ 1,50"
             }
 
@@ -88,7 +95,7 @@
         },
         {
           "type": "items",
-          "subtitle": "Dolci coccole & infusi",
+          "subtitle": "Le altre preparazioni",
           "items": [
             {
               "name": "Cioccolata Calda",
@@ -118,8 +125,8 @@
           "type": "customBox",
           "title": "Personalizza il tuo momento",
           "paragraphs": [
-            "<strong>Varianti:</strong> Macchiato (+0,20 €) | Orzo (+0,30 €) | Ginseng (+0,30 €) | Decaffeinato (+0,10 €)",
-            "<strong>Scelte Veg & Intolleranze:</strong> Bevanda vegetale o latte senza lattosio (+0,20 €)",
+            "<strong>Varianti & Sostituzioni:</strong> Aggiunta Latte (+0,20 €) | Orzo (+0,30 €) | Ginseng (+0,30 €) | Decaffeinato (+0,10 €)",
+            "<strong>Scelte Veg & Intolleranze:</strong> Bevanda Vegetale (+0,20 €) |  Latte Delattosato (+0,20 €)",
             "<strong>Extra:</strong> Panna Montata (+0,50 €) | Ghiaccio (+0,30 €)",
             "<strong>Correzioni:</strong> Sambuca, Zabov, Borghetti (+0,50 €) | Baileys, Distillati (+0,80 €)",
             "<strong>Nota:</strong> Per i prodotti di caffetteria da asporto è previsto un supplemento di 0,10 € a pezzo."
@@ -131,27 +138,27 @@
       "id": "freschi",
       "label": "Freschi & Dissetanti",
       "title": "I freschi & dissetanti",
-      "infoBox": "I grandi classici della nostra tradizione, preparati al momento per offrirti una pausa autentica, fresca e rigenerante.",
+      "infoBox": "Ricette storiche, sciroppi tradizionali e specialità espresse: una selezione di bevande rinfrescanti pensate per regalarti una pausa autentica e rigenerante in qualsiasi momento.",
       "content": [
         {
           "type": "items",
-          "subtitle": "I dissetanti",
-          "items": [
+          "subtitle": "I classici",
+          "items": [        
             {
               "name": "Latte e menta",
-              "description": "Un'iconica combinazione di dolcezza e freschezza: il sapore delicato del latte fresco incontra la nota rigenerante e profumata dello sciroppo alla menta.",
+              "description": "Un'iconica combinazione di dolcezza e freschezza: il sapore delicato del latte fresco incontra la nota rigenerante e profumata dello sciroppo di menta.",
               "price": "€ 2,50",
               "allergens": "ALL. 7"
             },
             {
               "name": "Acqua e orzata",
-              "description": " Il dissetante tradizionale per eccellenza: la dolcezza avvolgente e l'aroma inconfondibile dell'orzata, servita cortese e ghiacciata",
+              "description": " Il dissetante tradizionale per eccellenza: la dolcezza avvolgente e l'aroma inconfondibile dell'orzata, servita fresca e ghiacciata.",
               "price": "€ 2,00",
               "allergens": "ALL. 8"
             },
             {
               "name": "Acqua e mandorla",
-              "description": "Un grande classico dell'estate: tutto il piacere rinfrescante dell'acqua unito alla nota dolce, intensa e profondamente aromatica dello sciroppo alla mandorla.",
+              "description": "Un grande classico dell'estate: tutto il piacere rinfrescante dell'acqua unito alla nota dolce, intensa e profondamente aromatica dello sciroppo di mandorla.",
               "price": "€ 2,00",
               "allergens": "ALL. 8"
             },
@@ -159,6 +166,27 @@
               "name": "Acqua e menta",
               "description": "Semplice, immediata e totalmente rigenerante: la freschezza assoluta della menta si unisce alla purezza dell'acqua per una perfetta pausa dissetante.",
               "price": "€ 2,00"
+            },
+            {
+              "name": "Tea freddo",
+              "description": "Un grande classico dell'estate, fresco e rigenerante. Disponibile al gusto limone o pesca, servito con ghiaccio.",
+              "price": "€ 2,00"
+            }
+          ]
+        },
+        {
+          "type": "items",
+          "subtitle": "Le sciacquette",
+          "items": [
+            {
+              "name": "Sciacquetta Classica",
+              "price": "€ 2,00",
+              "description": "La rinfrescante anima di Bari in versione tradizionale: limone fresco, ghiaccio tritato e acqua tonica."
+            },
+            {
+              "name": "Sciacquetta Mediterranea",
+              "price": "€ 2,50",
+              "description": "Una variante agrumata e dissetante: un blend fresco di arancia e limone con ghiaccio tritato e acqua tonica."
             }
           ]
         }
@@ -269,7 +297,7 @@
               "allergens": "ALL. 1, 3, 7"
             },
             {
-              "name": "Panino con gocce di cioccolato",
+              "name": "Pangocciolo",
               "price": "€ 1,50",
               "description": "Un soffice e tenero morso arricchito da una pioggia di gocce di cioccolato.",
               "allergens": "ALL. 1, 3, 6, 7"
@@ -331,7 +359,7 @@
             {
               "name": "Ciambella",
               "price": "€ 1,90",
-              "description": "Soffice, genuina e fragrante, il dolce sapore della tradizione fatta in casa.",
+              "description": "Tutta la morbidezza del classico donut americano, perfetto per una pausa dolce e colorata.",
               "allergens": "ALL. 1, 3, 7"
             }
           ]
