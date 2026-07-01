@@ -22,6 +22,11 @@
               "allergens": "ALL. 7"
             },
             {
+              "name": "Caffè Americano",
+              "description": "Espresso allungato con acqua calda, per un sorso leggero e prolungato.",
+              "price": "€ 2,00"
+            },
+            {
               "name": "Espressino",
               "price": "€ 1,30",
               "description": "Un perfetto equilibrio di espresso e vellutata crema di latte, completato da una golosa spolverata di cacao.",
@@ -31,6 +36,12 @@
               "name": "Cappuccino",
               "price": "€ 1,50",
               "description": "Un morbido abbraccio di crema di latte vellutata e intenso espresso.",
+              "allergens": "ALL. 7"
+            },
+            {
+              "name": "Babyccino al Cacao",
+              "price": "€ 1,30",
+              "description": "Una tazzina di soffice latte montato a crema, impreziosita da una golosa spolverata di cacao. La pausa caffè pensata per i più piccoli.",
               "allergens": "ALL. 7"
             },
             {
@@ -57,7 +68,7 @@
               "description": "Una nuvola di soffice crema di latte che incontra l'intensità dell'espresso.",
               "allergens": "ALL. 7"
             },
-                        {
+           {
               "name": "Orzo",
               "description": "L'alternativa naturale e priva di caffeina: una tazza dal gusto morbido, tostato e delicato, perfetta in ogni momento.",
               "price": "€ 1,50",
@@ -68,6 +79,17 @@
               "description": "Una ricarica di pura energia nella sua versione naturale, non zuccherata. Una bevanda cremosa dal sapore deciso e speziato, ideale per chi desidera personalizzare la propria pausa dolcificandola a piacere.",
               "price": "€ 1,50",
               "allergens": "ALL. 7"
+            }
+          ]
+        },
+        {
+          "type": "items",
+          "subtitle": "I Freddi",
+          "items": [
+            {
+              "name": "Caffè in Ghiaccio",
+              "description": "Espresso appena estratto servito con un bicchiere di ghiaccio a parte, pronto da versare per preservare tutto l'aroma del caffè.",
+              "price": "€ 1,50"
             },
             {
               "name": "Caffè Freddo",
@@ -81,16 +103,16 @@
               "allergens": "ALL. 8"
             },
             {
-              "name": "Caffè Americano",
-              "description": "Espresso allungato con acqua calda, per un sorso leggero e prolungato.",
-              "price": "€ 2,00"
+              "name": "Iced Americano",
+              "price": "€ 2,30",
+              "description": "Il gusto pulito del caffè americano, estratto caldo ed espresso direttamente su cubetti di ghiaccio per una pausa rinfrescante e prolungata."
             },
             {
-              "name": "Caffè in Ghiaccio",
-              "description": "Espresso appena estratto servito con un bicchiere di ghiaccio a parte, pronto da versare per preservare tutto l'aroma del caffè.",
-              "price": "€ 1,50"
+              "name": "Iced Latte",
+              "price": "€ 2,50",
+              "description": "Un'armoniosa e fresca unione di latte freddo e ghiaccio, sormontata da un espresso intenso.",
+              "allergens": "ALL. 7"
             }
-
           ]
         },
         {
@@ -125,6 +147,7 @@
           "type": "customBox",
           "title": "Personalizza il tuo momento",
           "paragraphs": [
+            "<strong>Sciroppi:</strong> Personalizza il tuo caffè con i nostri sciroppi (+0,50 €)",
             "<strong>Varianti & Sostituzioni:</strong> Aggiunta Latte (+0,20 €) | Orzo (+0,30 €) | Ginseng (+0,30 €) | Decaffeinato (+0,10 €)",
             "<strong>Scelte Veg & Intolleranze:</strong> Bevanda Vegetale (+0,20 €) |  Latte Delattosato (+0,20 €)",
             "<strong>Extra:</strong> Panna Montata (+0,50 €) | Ghiaccio (+0,30 €)",
