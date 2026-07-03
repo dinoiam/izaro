@@ -254,6 +254,11 @@
           "subtitle": "Cocktail al caffè",
           "items": [
             {
+              "name": "Espresso Tonic",
+              "price": "€ 3,50",
+              "description": "L'incontro sorprendente tra la freschezza briosa dell'acqua tonica, ghiaccio e l'intensità di un espresso versato in superficie. Agrumato, dissetante e decisamente energetico."
+            },
+            {
               "name": "Espresso Martini",
               "price": "€ 6,00",
               "description": "Un grande classico: Vodka e liquore al caffè si fondono con l'intensità di un espresso fresco."
