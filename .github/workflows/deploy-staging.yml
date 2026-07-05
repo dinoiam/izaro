@@ -1,0 +1,40 @@
+name: Deploy to staging repo
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to izaro-staging
+        run: |
+          git clone \
+            "https://git:${{ secrets.STAGING_TOKEN }}@github.com/dinoiam/izaro-staging.git" /tmp/staging-repo || true
+          # Se la repo è vuota, inizializza con un branch main
+          if [ ! -d /tmp/staging-repo/.git ]; then
+            mkdir -p /tmp/staging-repo
+            cd /tmp/staging-repo
+            git init
+            git checkout -b main
+            git config user.name "github-actions"
+            git config user.email "actions@github.com"
+            git remote add origin \
+              "https://git:${{ secrets.STAGING_TOKEN }}@github.com/dinoiam/izaro-staging.git"
+          fi
+          rm -rf /tmp/staging-repo/*.html /tmp/staging-repo/*.json /tmp/staging-repo/*.svg /tmp/staging-repo/.github
+
+          rsync -av --exclude='.github' --exclude='.git' ./ /tmp/staging-repo/
+
+          cd /tmp/staging-repo
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add -A
+          git commit -m "Deploy from izaro@$GITHUB_SHA" --allow-empty
+          git push
